@@ -114,10 +114,12 @@ function getCurrentIndex(payload, entries) {
 async function openSplashPopover() {
   if (!OBR.isAvailable || isSplashView) return;
   const [viewportWidth, viewportHeight] = await Promise.all([OBR.viewport.getWidth(), OBR.viewport.getHeight()]);
+  const splashUrl = new URL(`${import.meta.env.BASE_URL}?view=splash&v=0.2.1`, window.location.origin).toString();
+  console.info(`[OBR Initiative] Opening splash popover at ${splashUrl}`);
   OBR.popover
     .open({
       id: SPLASH_POPOVER_ID,
-      url: `${window.location.origin}${import.meta.env.BASE_URL}?view=splash`,
+      url: splashUrl,
       width: 820,
       height: 280,
       anchorReference: "POSITION",
