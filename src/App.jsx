@@ -117,7 +117,7 @@ async function openSplashPopover() {
   OBR.popover
     .open({
       id: SPLASH_POPOVER_ID,
-      url: `${window.location.origin}/?view=splash`,
+      url: `${window.location.origin}${import.meta.env.BASE_URL}?view=splash`,
       width: 820,
       height: 280,
       anchorReference: "POSITION",
