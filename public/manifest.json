@@ -1,0 +1,12 @@
+{
+  "name": "OBR Initiative Table View",
+  "version": "0.2.0",
+  "manifest_version": 1,
+  "action": {
+    "title": "Initiative Table View",
+    "icon": "https://raw.githubusercontent.com/cynicaloptimist/improved-initiative/master/public/img/icon-d20.svg",
+    "popover": "/OBR-Improved-Initiative/",
+    "height": 600,
+    "width": 420
+  }
+}
