@@ -13,7 +13,7 @@ The app is also available as a production build with `npm run build`.
 
 ## Owlbear SDK integration
 
-The app uses `@owlbear-rodeo/sdk` and waits for `OBR.onReady`. The settings control stores the GM's Custom Encounter ID in Owlbear room metadata under `com.obr-initiative.settings`. The app uses `socket.io-client` to connect to `https://improvedinitiative.app`, emits `join encounter`, and listens for Improved Initiative's `encounter updated` events. During local development, Vite proxies the initial `/playerviews/{encounterId}` snapshot through `/ii-api` because the Improved Initiative REST endpoint does not allow browser CORS requests from the OBR extension origin.
+The app uses `@owlbear-rodeo/sdk` and waits for `OBR.onReady`. The settings control stores the GM's Custom Encounter ID in Owlbear room metadata under `com.obr-initiative.settings`. The app uses `socket.io-client` to connect to `https://improvedinitiative.app`, emits `join encounter`, and listens for Improved Initiative's `encounter updated` events. During local development, Vite proxies the initial `/playerviews/{encounterId}` snapshot through `/ii-api`. Production uses `VITE_PLAYER_VIEW_API_URL` because the Improved Initiative REST endpoint does not allow browser CORS requests from the OBR extension origin.
 
 The incoming Improved Initiative state has this shape:
 
@@ -44,6 +44,18 @@ This repository includes a GitHub Actions workflow that builds and deploys the e
 `https://nathan-bar.github.io/OBR-Improved-Initiative/manifest.json`
 
 Add that manifest URL to Owlbear Rodeo. GitHub Pages serves the built Vite app over HTTPS, which avoids the mixed-content issues of the local HTTP development server.
+
+### Production CORS relay
+
+GitHub Pages is static and cannot proxy the initial Improved Initiative request. The included `worker/` directory contains a Cloudflare Worker relay. Deploy it with Wrangler:
+
+```bash
+cd worker
+npx wrangler login
+npx wrangler deploy
+```
+
+Set the GitHub Actions repository variable `VITE_PLAYER_VIEW_API_URL` to the Worker URL, for example `https://obr-initiative-relay.<your-subdomain>.workers.dev`, then rerun the Pages deployment. The hosted extension will request `/playerviews/{encounterId}` from the Worker, which adds CORS headers and fetches the data server-side.
 
 ## Test inside Owlbear Rodeo
 

@@ -5,7 +5,9 @@ import "./App.css";
 
 const ROOM_METADATA_KEY = "com.obr-initiative.settings";
 const IMPROVED_INITIATIVE_URL = "https://improvedinitiative.app";
-const PLAYER_VIEW_API_URL = import.meta.env.DEV ? "/ii-api" : IMPROVED_INITIATIVE_URL;
+const PLAYER_VIEW_API_URL = import.meta.env.DEV
+  ? "/ii-api"
+  : import.meta.env.VITE_PLAYER_VIEW_API_URL || IMPROVED_INITIATIVE_URL;
 const SPLASH_POPOVER_ID = "obr-initiative-turn-splash";
 const isSplashView = new URLSearchParams(window.location.search).get("view") === "splash";
 
